@@ -1,7 +1,6 @@
 import { OPENAI_API_HOST, OPENAI_API_TYPE, OPENAI_API_VERSION, OPENAI_ORGANIZATION } from '@/utils/app/const';
 
 import { OpenAIModel, OpenAIModelID, OpenAIModels } from '@/types/openai';
-import { auth } from './auth';
 
 export const config = {
   runtime: 'edge',
@@ -9,15 +8,6 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const authResult = auth(req);
-
-    if (authResult.error) {
-      return new Response('Unauthorized', {
-        status: authResult.status,
-        statusText: authResult.statusText,
-      });
-    }
-    
     const { key } = (await req.json()) as {
       key: string;
     };

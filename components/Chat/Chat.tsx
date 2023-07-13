@@ -47,10 +47,8 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
       conversations,
       models,
       apiKey,
-      guestCode,
       pluginKeys,
       serverSideApiKeyIsSet,
-      serverSideGuestCodeIsSet,
       messageIsStreaming,
       modelError,
       loading,
@@ -122,7 +120,6 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            ...(guestCode && { Authorization: `Bearer ${guestCode}` }),
           },
           signal: controller.signal,
           body,
@@ -352,10 +349,7 @@ export const Chat = memo(({ stopConversationRef }: Props) => {
 
   return (
     <div className="relative flex-1 overflow-hidden bg-white dark:bg-[#343541]">
-      {!(
-        (!serverSideGuestCodeIsSet || guestCode) &&
-        (apiKey || serverSideApiKeyIsSet)
-      ) ? (
+      {!(apiKey || serverSideApiKeyIsSet) ? (
         <div className="mx-auto flex h-full w-[300px] flex-col justify-center space-y-6 sm:w-[600px]">
           <div className="text-center text-4xl font-bold text-black dark:text-white">
             Welcome to Chatbot UI

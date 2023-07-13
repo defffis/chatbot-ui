@@ -10,7 +10,6 @@ import { HotkeySettings } from '@/types/settings';
 
 export interface HomeInitialState {
   apiKey: string;
-  guestCode: string;
   pluginKeys: PluginKey[];
   loading: boolean;
   lightMode: 'light' | 'dark';
@@ -30,14 +29,12 @@ export interface HomeInitialState {
   searchTerm: string;
   defaultModelId: OpenAIModelID | undefined;
   serverSideApiKeyIsSet: boolean;
-  serverSideGuestCodeIsSet: boolean;
   serverSidePluginKeysSet: boolean;
   hotkeys: HotkeySettings;
 }
 
 export const initialState: HomeInitialState = {
   apiKey: '',
-  guestCode: '',
   loading: false,
   pluginKeys: [],
   lightMode: 'dark',
@@ -57,7 +54,6 @@ export const initialState: HomeInitialState = {
   searchTerm: '',
   defaultModelId: undefined,
   serverSideApiKeyIsSet: false,
-  serverSideGuestCodeIsSet: false,
   serverSidePluginKeysSet: false,
   hotkeys: initialHotkeys,
 };

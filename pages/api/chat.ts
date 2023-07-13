@@ -5,7 +5,6 @@ import { ChatBody, Message } from '@/types/chat';
 
 // @ts-expect-error
 import wasm from '../../node_modules/@dqbd/tiktoken/lite/tiktoken_bg.wasm?module';
-import { auth } from './auth';
 
 import tiktokenModel from '@dqbd/tiktoken/encoders/cl100k_base.json';
 import { Tiktoken, init } from '@dqbd/tiktoken/lite/init';
@@ -16,17 +15,7 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const authResult = auth(req);
-
-    if (authResult.error) {
-      return new Response('Unauthorized', {
-        status: authResult.status,
-        statusText: authResult.statusText,
-      });
-    }
-
-    const { model, messages, key, prompt, temperature } =
-      (await req.json()) as ChatBody;
+    const { model, messages, key, prompt, temperature } = (await req.json()) as ChatBody;
 
     await init((imports) => WebAssembly.instantiate(wasm, imports));
     const encoding = new Tiktoken(
@@ -63,13 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     encoding.free();
 
-    const stream = await OpenAIStream(
-      model,
-      promptToSend,
-      temperatureToUse,
-      key,
-      messagesToSend,
-    );
+    const stream = await OpenAIStream(model, promptToSend, temperatureToUse, key, messagesToSend);
 
     return new Response(stream);
   } catch (error) {
