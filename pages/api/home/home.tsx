@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useQuery } from 'react-query';
 
 import { GetServerSideProps } from 'next';
@@ -73,6 +74,7 @@ const Home = ({
       selectedConversation,
       prompts,
       temperature,
+      hotkeys,
     },
     dispatch,
   } = contextValue;
@@ -279,6 +281,12 @@ const Home = ({
         value: settings.theme,
       });
     }
+    if (settings.hotkeys) {
+      dispatch({
+        field: 'hotkeys',
+        value: settings.hotkeys,
+      });
+    }
 
     const apiKey = localStorage.getItem('apiKey');
     const guestCode = localStorage.getItem('guestCode');
@@ -376,6 +384,10 @@ const Home = ({
     serverSideApiKeyIsSet,
     serverSideGuestCodeIsSet,
     serverSidePluginKeysSet,
+  ]);
+
+  useHotkeys(hotkeys.newConversation ?? '', handleNewConversation, [
+    handleNewConversation,
   ]);
 
   return (
