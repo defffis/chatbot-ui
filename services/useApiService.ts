@@ -26,12 +26,11 @@ const useApiService = () => {
   // );
 
   const getModels = useCallback(
-    (params: GetModelsRequestProps, guestCode = '', signal?: AbortSignal) => {
+    (params: GetModelsRequestProps, signal?: AbortSignal) => {
       return fetchService.post<GetModelsRequestProps>(`/api/models`, {
         body: { key: params.key },
         headers: {
           'Content-Type': 'application/json',
-          ...(guestCode && { Authorization: `Bearer ${guestCode}` }),
         },
         signal,
       });
